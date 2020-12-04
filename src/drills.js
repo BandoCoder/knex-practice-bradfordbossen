@@ -16,4 +16,35 @@ function searchByItemName(searchTerm) {
     });
 }
 
-searchByItemName("Tofurkey");
+// searchByItemName("Tofurkey");
+
+function paginateItems(pageNumber) {
+  const itemsPerPage = 6;
+  const offset = itemsPerPage * (pageNumber - 1);
+  knexInstance
+    .select("id", "name", "price", "date_added", "checked", "category")
+    .from("shopping_list")
+    .limit(itemsPerPage)
+    .offset(offset)
+    .then((result) => {
+      console.log(result);
+    });
+}
+
+// paginateItems(2);
+
+function itemsAfterDate(daysAgo) {
+  knexInstance
+    .select("id", "name", "price", "date_added", "checked", "category")
+    .from("shopping_list")
+    .where(
+      "date_added",
+      ">",
+      knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
+    )
+    .then((result) => {
+      console.log(result);
+    });
+}
+
+//itemsAfterDate(3);
