@@ -16,7 +16,7 @@ function searchByItemName(searchTerm) {
     });
 }
 
-// searchByItemName("Tofurkey");
+searchByItemName("Tofurkey");
 
 function paginateItems(pageNumber) {
   const itemsPerPage = 6;
@@ -31,7 +31,7 @@ function paginateItems(pageNumber) {
     });
 }
 
-// paginateItems(2);
+paginateItems(2);
 
 function itemsAfterDate(daysAgo) {
   knexInstance
@@ -47,4 +47,18 @@ function itemsAfterDate(daysAgo) {
     });
 }
 
-//itemsAfterDate(3);
+itemsAfterDate(3);
+
+function totalCostPerCategory() {
+  knexInstance
+    .select("category")
+    .sum("price as total")
+    .from("shopping_list")
+    .groupBy("category")
+    .then((result) => {
+      console.log("Cost by each category");
+      console.log(result);
+    });
+}
+
+totalCostPerCategory();
